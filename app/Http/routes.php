@@ -10,7 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::get('/routes', function(){
+  return link_to('Test');
+});
 Route::get('/', 'WelcomeController@index');
 Route::get('contact-us', 'ContentController@contactUs');
 Route::post('contact-us', 'ContentController@contactUsPost');

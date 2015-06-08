@@ -28,9 +28,13 @@ class Language implements Middleware {
 
         if ( ! array_key_exists($locale, $this->app->config->get('app.locales'))) {
             $segments = $request->segments();
-            $segments[0] = $this->app->config->get('app.fallback_locale');
-
-            return $this->redirector->to(implode('/', $segments));
+            $language = $this->app->config->get('app.fallback_locale');
+            array_unshift($segments, $language);
+            $newUrl = implode('/', $segments);
+            if(array_key_exists('QUERY_STRING', $_SERVER))
+                if($_SERVER['QUERY_STRING'])
+                    $newUrl .= '?'.$_SERVER['QUERY_STRING'];
+            return $this->redirector->to($newUrl);
         }
 
         $this->app->setLocale($locale);
